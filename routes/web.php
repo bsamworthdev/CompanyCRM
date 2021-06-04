@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompanyController;
 use Inertia\Inertia;
 
 /*
@@ -27,3 +28,8 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/companies', [CompanyController::class, 'index'])->name('companies');
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
+});
