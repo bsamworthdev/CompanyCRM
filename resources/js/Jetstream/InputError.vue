@@ -1,13 +1,13 @@
 <template>
-    <div v-show="message">
-        <p class="text-sm text-red-600">
-            {{ message }}
+    <div v-show="errors.length">
+        <p v-for="error in errors" :key="error" class="text-sm text-red-600">
+            {{ error }}
         </p>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['message']
+        props: ['errors']
     }
 </script>

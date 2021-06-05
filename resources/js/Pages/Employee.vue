@@ -54,7 +54,10 @@
                                 <form class="w-full max-w-md">
                                     <div class="md:flex md:items-center mb-6">
                                         <div class="md:w-1/2 text-right mr-2">
-                                            <Label>First Name</Label>
+                                            <Label>
+                                                First Name <span class="required">*</span>
+                                            </Label>
+                                            
                                         </div>
                                         <div class="md:w-1/2">
                                             <Input id="first_name" v-model="form.first_name"/>
@@ -62,7 +65,10 @@
                                     </div>
                                     <div class="md:flex md:items-center mb-6">
                                         <div class="md:w-1/2 text-right mr-2">
-                                            <Label>Last Name</Label>
+                                            <Label>
+                                                Last Name <span class="required">*</span>
+                                            </Label>
+                                           
                                         </div>
                                         <div class="md:w-1/2">
                                             <Input id="last_name" v-model="form.last_name"/>
@@ -92,6 +98,13 @@
                                             <Input id="phone" v-model="form.phone"/>
                                         </div>
                                     </div>
+                                    <div class="md:flex md:items-center mb-6">
+                                        <div class="md:w-1/2 text-right mr-2">
+                                        </div>
+                                        <div class="md:w-1/2">
+                                            <InputError :errors="errors"/>
+                                        </div>
+                                    </div>
                                 </form>                        
                             </template>
 
@@ -109,10 +122,17 @@
     </app-layout>
 </template>
 
+<style scoped>
+    .required{
+        color:red;
+    }
+</style>
+
 <script>
     import DialogModal from '@/Jetstream/DialogModal'
     import Label from '@/Jetstream/Label'
     import Input from '@/Jetstream/Input'
+    import InputError from '@/Jetstream/InputError'
     import SuccessButton from '@/Jetstream/SuccessButton'
     import DangerButton from '@/Jetstream/DangerButton'
     import SecondaryButton from '@/Jetstream/SecondaryButton'
@@ -134,13 +154,15 @@
                     phone: null
                 },
                 showModal: false,
-                myEmployees: this.employees
+                myEmployees: this.employees,
+                errors: []
             }
         },
         components: {
             DialogModal,
             Label,
             Input,
+            InputError,
             AppLayout,
             TableCell,
             TableHeaderCell,
@@ -155,6 +177,7 @@
             closeModal: function () {
                 this.showModal = false;
                 this.reset();
+                this.resetErrors();
                 this.editMode = false;
             },
             reset: function () {
@@ -166,16 +189,40 @@
                     phone: null
                 }
             },
+            resetErrors: function(){
+                this.errors = [];
+            },
             add: function() {
                 this.editMode = false;
                 this.openModal();
             },
             create: function (data) {
-                this.$inertia.post('/employees/create', data)
-                this.myEmployees.push(data);
-                this.reset();
-                this.closeModal();
-                this.editMode = false;
+                if (this.validate(data)){;
+                    this.$inertia.post('/employees/create', data)
+                    this.myEmployees.push(data);
+                    this.closeModal();
+                    this.editMode = false;
+                }
+            },
+            validate: function(data){
+                this.resetErrors();
+                if (!data.first_name) {
+                    this.errors.push("First Name required.");
+                }
+                if (!data.last_name) {
+                    this.errors.push("First Name required.");
+                }
+                if (data.email && !this.validEmail(data.email)) {
+                    this.errors.push('Not a valid email format');
+                }
+                if (data.phone && isNaN(data.phone)) {
+                    this.errors.push('Not a valid phone number');
+                }
+                return this.errors.length==0;
+            },
+            validEmail: function (email) {
+                var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
             },
             edit: function (data) {
                 this.form = Object.assign({}, data);
@@ -183,28 +230,27 @@
                 this.openModal();
             },
             update: function (data) {
-                this.$inertia.post('/employees/update/' + data.id, data)
+                if (this.validate(data)){
+                    this.$inertia.post('/employees/update/' + data.id, data)
 
-                var employee = this.myEmployees.filter(obj => {
-                    return obj.id === data.id
-                })
-                if (employee.length){
-                     employee[0].first_name=data.first_name;
-                     employee[0].last_name=data.last_name;
-                     employee[0].company=data.company;
-                     employee[0].email=data.email;
-                     employee[0].phone=data.phone;
+                    var employee = this.myEmployees.filter(obj => {
+                        return obj.id === data.id
+                    })
+                    if (employee.length){
+                        employee[0].first_name=data.first_name;
+                        employee[0].last_name=data.last_name;
+                        employee[0].company=data.company;
+                        employee[0].email=data.email;
+                        employee[0].phone=data.phone;
+                    }
+                    this.closeModal();
                 }
-
-                this.reset();
-                this.closeModal();
             },
             deleteRow: function (data) {
                 this.$inertia.post('/employees/delete/' + data.id, data)
                 this.myEmployees = this.myEmployees.filter(function( obj ) {
                     return obj.id !== data.id;
                 });
-                this.reset();
                 this.closeModal();
             }
         }
