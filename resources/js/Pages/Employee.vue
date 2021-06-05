@@ -26,7 +26,7 @@
                                 </tr>
                             </thead>
                             <tbody class="font-normal">
-                                <tr v-for="employee in myEmployees" :key="employee.id">
+                                <tr v-for="employee in myEmployees.data" :key="employee.id">
                                     <TableCell :content="employee.first_name" />
                                     <TableCell :content="employee.last_name" />
                                     <TableCell :content="employee.company" />
@@ -44,6 +44,7 @@
                             </tbody>
                             
                         </table>
+                        <Pagination class="mt-6" :links="myEmployees.links" />
 
                         <DialogModal :show="showModal">
                             <template #title>
@@ -79,7 +80,12 @@
                                             <Label>Company</Label>
                                         </div>
                                         <div class="md:w-1/2">
-                                            <Input id="company" v-model="form.company"/>
+                                            <select v-model="form.company" class="w-24 p-1 min-w-full border-2 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                                                <option value="">Please Select</option>
+                                                <option v-for="company in companies" :value="company.id" :key="company.id">
+                                                    {{ company.name }}
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="md:flex md:items-center mb-6">
@@ -139,9 +145,11 @@
     import AppLayout from '@/Layouts/AppLayout'
     import TableCell from '@/Pages/Components/TableCell'
     import TableHeaderCell from '@/Pages/Components/TableHeaderCell'
+    import Pagination from '@/Pages/Components/Pagination'
     export default {
         props: {
-            employees: String
+            employees: Object,
+            companies: Array
         },
         data() {
             return {
@@ -149,7 +157,7 @@
                 form: {
                     first_name: null,
                     last_name: null,
-                    company: null,
+                    company: "",
                     email: null,
                     phone: null
                 },
@@ -168,7 +176,8 @@
             TableHeaderCell,
             SuccessButton,
             DangerButton,
-            SecondaryButton
+            SecondaryButton,
+            Pagination
         },
         methods: {
             openModal: function () {
@@ -184,7 +193,7 @@
                 this.form = {
                     first_name: null,
                     last_name: null,
-                    company: null,
+                    company: "",
                     email: null,
                     phone: null
                 }
@@ -197,11 +206,15 @@
                 this.openModal();
             },
             create: function (data) {
-                if (this.validate(data)){;
-                    this.$inertia.post('/employees/create', data)
-                    this.myEmployees.push(data);
-                    this.closeModal();
-                    this.editMode = false;
+                if (this.validate(data)){
+
+                    var _this = this;
+                    this.$inertia.post('/employees/create', data,{
+                        onSuccess: () => {
+                            this.closeModal();
+                            location.reload();
+                        },
+                    });
                 }
             },
             validate: function(data){
@@ -247,11 +260,16 @@
                 }
             },
             deleteRow: function (data) {
-                this.$inertia.post('/employees/delete/' + data.id, data)
-                this.myEmployees = this.myEmployees.filter(function( obj ) {
-                    return obj.id !== data.id;
+                this.$inertia.post('/employees/delete/' + data.id, data, {
+                        onSuccess: () => {
+                            this.closeModal();
+                            location.reload();
+                        },
                 });
-                this.closeModal();
+                // this.myEmployees = this.myEmployees.filter(function( obj ) {
+                //     return obj.id !== data.id;
+                // });
+                // this.closeModal();
             }
         }
     }

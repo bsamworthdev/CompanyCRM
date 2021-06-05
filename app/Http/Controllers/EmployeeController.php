@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -10,8 +11,12 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees = Employee::all(); 
-        return Inertia::render('Employee', ['employees' => $employees]);
+        $employees = Employee::orderBy('id','desc')->paginate(3); 
+        $companies = Company::orderBy('name')->get(); 
+        return Inertia::render('Employee', [
+            'employees' => $employees,
+            'companies' => $companies
+        ]);
     }
     
     public function create(Request $request)

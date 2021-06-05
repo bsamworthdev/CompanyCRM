@@ -170,10 +170,15 @@
             },
             create: function (data) {
                 if (this.validate(data)){;
-                    this.$inertia.post('/companies/create', data)
-                    this.myCompanies.push(data);
-                    this.closeModal();
-                    this.editMode = false;
+                    this.$inertia.post('/companies/create', data, {
+                        onSuccess: () => {
+                            this.closeModal();
+                            location.reload();
+                        }
+                    });
+                    // this.myCompanies.push(data);
+                    // this.closeModal();
+                    // this.editMode = false;
                 }
             },
             validate: function(data){
