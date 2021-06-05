@@ -1,5 +1,5 @@
 <template>
-    <th class="border border-black-600 p-0 w-1/4">{{ content }}</th>                              
+    <td class="border border-black-600 text-center p-2 w-1/4">{{ content }}</td>                              
 </template>
 
 <script>

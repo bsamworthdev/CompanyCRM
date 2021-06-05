@@ -15,21 +15,21 @@
                         </SuccessButton>
 
                         <table class="table-fixed w-100 border-collapse border border-green-800 w-full">
-                            <thead>
+                            <thead class="font-bold">
                                 <tr>
-                                    <TableCell content="Name" />
-                                    <TableCell content="Email" />
-                                    <TableCell content="Website" />
-                                    <TableCell content="" />
+                                    <TableHeaderCell content="Name" />
+                                    <TableHeaderCell content="Email" />
+                                    <TableHeaderCell content="Website" />
+                                    <TableHeaderCell content="" />
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="font-normal">
                                 <tr v-for="company in myCompanies" :key="company.id">
                                     <TableCell :content="company.name" />
                                     <TableCell :content="company.email" />
                                     <TableCell :content="company.website" />
                                     <td class="border border-black-600 p-0 text-center">
-                                        <SecondaryButton class="mr-1" @click="edit(company)">
+                                        <SecondaryButton class="m-1" @click="edit(company)">
                                             Edit
                                         </SecondaryButton>
                                         <DangerButton @click="deleteRow(company)">
@@ -98,7 +98,7 @@
     import SecondaryButton from '@/Jetstream/SecondaryButton'
     import AppLayout from '@/Layouts/AppLayout'
     import TableCell from '@/Pages/Components/TableCell'
-
+    import TableHeaderCell from '@/Pages/Components/TableHeaderCell'
     export default {
         props: {
             companies: String
@@ -121,6 +121,7 @@
             Input,
             AppLayout,
             TableCell,
+            TableHeaderCell,
             SuccessButton,
             DangerButton,
             SecondaryButton
@@ -158,13 +159,24 @@
             },
             update: function (data) {
                 this.$inertia.post('/companies/update/' + data.id, data)
+
+                var company = this.myCompanies.filter(obj => {
+                    return obj.id === data.id
+                })
+                if (company.length){
+                     company[0].name=data.name;
+                     company[0].email=data.email;
+                     company[0].website=data.website;
+                }
+
                 this.reset();
                 this.closeModal();
             },
             deleteRow: function (data) {
-                if (!confirm('Sure')) return;
-                data._method = 'DELETE';
-                this.$inertia.post('/companies/' + data.id, data)
+                this.$inertia.post('/companies/delete/' + data.id, data)
+                this.myCompanies = this.myCompanies.filter(function( obj ) {
+                    return obj.id !== data.id;
+                });
                 this.reset();
                 this.closeModal();
             }

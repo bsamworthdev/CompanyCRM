@@ -17,22 +17,22 @@ class CompanyController extends Controller
     public function create(Request $request)
     {
         Company::create($request->all());
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Company Added');
     }
 
     public function update(Request $request)
     {
         if ($request->has('id')) {
             Company::find($request->input('id'))->update($request->all());
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Company Updated');
         }
     }
 
-    public function destroy(Request $request)
+    public function delete(Request $request)
     {
         if ($request->has('id')) {
             Company::find($request->input('id'))->delete();
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Company Deleted');
         }
     }
 }
