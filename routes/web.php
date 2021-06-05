@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
 use Inertia\Inertia;
 
 /*
@@ -36,5 +37,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/companies/update/{id}', [CompanyController::class, 'update'])->name('updatecompany');
     Route::post('/companies/delete/{id}', [CompanyController::class, 'delete'])->name('deletecompany');
 
+    //Employees
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
+    Route::post('/employees/create', [EmployeeController::class, 'create'])->name('createemployee');
+    Route::post('/employees/update/{id}', [EmployeeController::class, 'update'])->name('updateemployee');
+    Route::post('/employees/delete/{id}', [EmployeeController::class, 'delete'])->name('deleteemployee');
 });

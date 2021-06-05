@@ -1,0 +1,212 @@
+<template>
+    <app-layout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Employees
+            </h2>
+        </template>
+
+        <div class="py-12 p-6 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    <div class="col-md-6 p-6">
+                        <SuccessButton class="mb-2" @click="add()">
+                            Add New
+                        </SuccessButton>
+
+                        <table class="table-fixed w-100 border-collapse border border-green-800 w-full">
+                            <thead class="font-bold">
+                                <tr>
+                                    <TableHeaderCell content="First Name" />
+                                    <TableHeaderCell content="Last Name" />
+                                    <TableHeaderCell content="Company" />
+                                    <TableHeaderCell content="Email" />
+                                    <TableHeaderCell content="Phone" />
+                                    <TableHeaderCell content="" />
+                                </tr>
+                            </thead>
+                            <tbody class="font-normal">
+                                <tr v-for="employee in myEmployees" :key="employee.id">
+                                    <TableCell :content="employee.first_name" />
+                                    <TableCell :content="employee.last_name" />
+                                    <TableCell :content="employee.company" />
+                                    <TableCell :content="employee.email" />
+                                    <TableCell :content="employee.phone" />
+                                    <td class="border border-black-600 p-0 text-center">
+                                        <SecondaryButton class="m-1" @click="edit(employee)">
+                                            Edit
+                                        </SecondaryButton>
+                                        <DangerButton @click="deleteRow(employee)">
+                                            Delete
+                                        </DangerButton>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+
+                        <DialogModal :show="showModal">
+                            <template #title>
+                                Add Employee
+                            </template>
+
+                            <template #content>
+                                <form class="w-full max-w-md">
+                                    <div class="md:flex md:items-center mb-6">
+                                        <div class="md:w-1/2 text-right mr-2">
+                                            <Label>First Name</Label>
+                                        </div>
+                                        <div class="md:w-1/2">
+                                            <Input id="first_name" v-model="form.first_name"/>
+                                        </div>
+                                    </div>
+                                    <div class="md:flex md:items-center mb-6">
+                                        <div class="md:w-1/2 text-right mr-2">
+                                            <Label>Last Name</Label>
+                                        </div>
+                                        <div class="md:w-1/2">
+                                            <Input id="last_name" v-model="form.last_name"/>
+                                        </div>
+                                    </div>
+                                    <div class="md:flex md:items-center mb-6">
+                                        <div class="md:w-1/2 text-right mr-2">
+                                            <Label>Company</Label>
+                                        </div>
+                                        <div class="md:w-1/2">
+                                            <Input id="company" v-model="form.company"/>
+                                        </div>
+                                    </div>
+                                    <div class="md:flex md:items-center mb-6">
+                                        <div class="md:w-1/2 text-right mr-2">
+                                            <Label>Email</Label>
+                                        </div>
+                                        <div class="md:w-1/2">
+                                            <Input id="email" v-model="form.email"/>
+                                        </div>
+                                    </div>
+                                    <div class="md:flex md:items-center mb-6">
+                                        <div class="md:w-1/2 text-right mr-2">
+                                            <Label>Phone</Label>
+                                        </div>
+                                        <div class="md:w-1/2">
+                                            <Input id="phone" v-model="form.phone"/>
+                                        </div>
+                                    </div>
+                                </form>                        
+                            </template>
+
+                            <template #footer>
+                                <DangerButton class="mr-1" @click="closeModal()">Close</DangerButton>
+                                <SuccessButton v-if="editMode" class="mb-1" :disabled="!form.first_name || !form.last_name" @click="update(form)">Update</SuccessButton>
+                                <SuccessButton v-else class="mb-1" :disabled="!form.first_name || !form.last_name" @click="create(form)">Save</SuccessButton>
+                            </template>
+                        </DialogModal>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </app-layout>
+</template>
+
+<script>
+    import DialogModal from '@/Jetstream/DialogModal'
+    import Label from '@/Jetstream/Label'
+    import Input from '@/Jetstream/Input'
+    import SuccessButton from '@/Jetstream/SuccessButton'
+    import DangerButton from '@/Jetstream/DangerButton'
+    import SecondaryButton from '@/Jetstream/SecondaryButton'
+    import AppLayout from '@/Layouts/AppLayout'
+    import TableCell from '@/Pages/Components/TableCell'
+    import TableHeaderCell from '@/Pages/Components/TableHeaderCell'
+    export default {
+        props: {
+            employees: String
+        },
+        data() {
+            return {
+                editMode: false,
+                form: {
+                    first_name: null,
+                    last_name: null,
+                    company: null,
+                    email: null,
+                    phone: null
+                },
+                showModal: false,
+                myEmployees: this.employees
+            }
+        },
+        components: {
+            DialogModal,
+            Label,
+            Input,
+            AppLayout,
+            TableCell,
+            TableHeaderCell,
+            SuccessButton,
+            DangerButton,
+            SecondaryButton
+        },
+        methods: {
+            openModal: function () {
+                this.showModal = true;
+            },
+            closeModal: function () {
+                this.showModal = false;
+                this.reset();
+                this.editMode = false;
+            },
+            reset: function () {
+                this.form = {
+                    first_name: null,
+                    last_name: null,
+                    company: null,
+                    email: null,
+                    phone: null
+                }
+            },
+            add: function() {
+                this.editMode = false;
+                this.openModal();
+            },
+            create: function (data) {
+                this.$inertia.post('/employees/create', data)
+                this.myEmployees.push(data);
+                this.reset();
+                this.closeModal();
+                this.editMode = false;
+            },
+            edit: function (data) {
+                this.form = Object.assign({}, data);
+                this.editMode = true;
+                this.openModal();
+            },
+            update: function (data) {
+                this.$inertia.post('/employees/update/' + data.id, data)
+
+                var employee = this.myEmployees.filter(obj => {
+                    return obj.id === data.id
+                })
+                if (employee.length){
+                     employee[0].first_name=data.first_name;
+                     employee[0].last_name=data.last_name;
+                     employee[0].company=data.company;
+                     employee[0].email=data.email;
+                     employee[0].phone=data.phone;
+                }
+
+                this.reset();
+                this.closeModal();
+            },
+            deleteRow: function (data) {
+                this.$inertia.post('/employees/delete/' + data.id, data)
+                this.myEmployees = this.myEmployees.filter(function( obj ) {
+                    return obj.id !== data.id;
+                });
+                this.reset();
+                this.closeModal();
+            }
+        }
+    }
+</script>
