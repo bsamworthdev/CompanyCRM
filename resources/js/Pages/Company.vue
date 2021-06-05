@@ -77,8 +77,8 @@
 
                             <template #footer>
                                 <DangerButton class="mr-1" @click="closeModal()">Close</DangerButton>
-                                <SuccessButton v-if="editMode" class="mb-1" @click="update(form)">Update</SuccessButton>
-                                <SuccessButton v-else class="mb-1" @click="create(form)">Save</SuccessButton>
+                                <SuccessButton v-if="editMode" class="mb-1" :disabled="!form.name" @click="update(form)">Update</SuccessButton>
+                                <SuccessButton v-else class="mb-1" :disabled="!form.name" @click="create(form)">Save</SuccessButton>
                             </template>
                         </DialogModal>
 

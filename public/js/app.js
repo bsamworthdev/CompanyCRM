@@ -17255,7 +17255,8 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     type: {
       type: String,
-      "default": 'button'
+      "default": 'button',
+      disabled: Boolean
     }
   }
 });
@@ -19795,10 +19796,11 @@ __webpack_require__.r(__webpack_exports__);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
     type: $props.type,
+    disabled: _ctx.disabled,
     "class": "inline-flex items-center justify-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")], 8
   /* PROPS */
-  , ["type"]);
+  , ["type", "disabled"]);
 }
 
 /***/ }),
@@ -22081,6 +22083,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }), $data.editMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_SuccessButton, {
             key: 0,
             "class": "mb-1",
+            disabled: !$data.form.name,
             onClick: _cache[6] || (_cache[6] = function ($event) {
               return $options.update($data.form);
             })
@@ -22091,9 +22094,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1
             /* STABLE */
 
-          })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_SuccessButton, {
+          }, 8
+          /* PROPS */
+          , ["disabled"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_SuccessButton, {
             key: 1,
             "class": "mb-1",
+            disabled: !$data.form.name,
             onClick: _cache[7] || (_cache[7] = function ($event) {
               return $options.create($data.form);
             })
@@ -22104,7 +22110,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1
             /* STABLE */
 
-          }))];
+          }, 8
+          /* PROPS */
+          , ["disabled"]))];
         }),
         _: 1
         /* STABLE */
