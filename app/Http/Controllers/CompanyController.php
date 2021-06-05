@@ -10,11 +10,11 @@ class CompanyController extends Controller
 {
     public function index()
     {
-        $data = Company::all(); 
-        return Inertia::render('Company', ['data' => $data]);
+        $companies = Company::all(); 
+        return Inertia::render('Company', ['companies' => $companies]);
     }
     
-    public function store(Request $request)
+    public function create(Request $request)
     {
         Company::create($request->all());
         return redirect()->back();

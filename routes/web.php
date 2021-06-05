@@ -32,4 +32,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/companies', [CompanyController::class, 'index'])->name('companies');
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
+    Route::post('/companies/create', [CompanyController::class, 'create'])->name('createcompany');
 });
