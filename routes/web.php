@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FileController;
 use Inertia\Inertia;
 
 /*
@@ -42,4 +43,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/employees/create', [EmployeeController::class, 'create'])->name('createemployee');
     Route::post('/employees/update/{id}', [EmployeeController::class, 'update'])->name('updateemployee');
     Route::post('/employees/delete/{id}', [EmployeeController::class, 'delete'])->name('deleteemployee');
+
+    //Image Uploader
+    Route::get('/', [FileController::class, 'index']);
+    Route::post('/upload', [FileController::class, 'upload'])->name('upload');
 });

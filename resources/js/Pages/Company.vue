@@ -20,6 +20,7 @@
                                     <TableHeaderCell content="Name" />
                                     <TableHeaderCell content="Email" />
                                     <TableHeaderCell content="Website" />
+                                    <TableHeaderCell content="Logo" />
                                     <TableHeaderCell content="" />
                                 </tr>
                             </thead>
@@ -28,6 +29,9 @@
                                     <TableCell :content="company.name" />
                                     <TableCell :content="company.email" />
                                     <TableCell :content="company.website" />
+                                    <td class="border border-black-600 p-0 text-center">
+                                        <img class="object-scale-down h-20 inline-block" :src="company.logo">
+                                    </td>
                                     <td class="border border-black-600 p-0 text-center">
                                         <SecondaryButton class="m-1" @click="edit(company)">
                                             Edit
@@ -77,6 +81,21 @@
                                     </div>
                                     <div class="md:flex md:items-center mb-6">
                                         <div class="md:w-1/2 text-right mr-2">
+                                            <Label>Logo</Label>
+                                        </div>
+                                        <div class="md:w-1/2">
+                                            <img class="object-scale-down h-50 mb-1" :src="form.logo">
+                                            <Input id="Logo" hidden v-model="form.logo"/>
+                                            <DangerButton v-show="form.logo" class="mr-1" id="clearLogoButton" @click="clearLogo">
+                                                Clear
+                                            </DangerButton>
+                                            <form @submit="formSubmit" enctype="multipart/form-data">
+                                                <input type="file" class=" " v-on:change="onChange">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="md:flex md:items-center mb-6">
+                                        <div class="md:w-1/2 text-right mr-2">
                                         </div>
                                         <div class="md:w-1/2">
                                             <InputError :errors="errors"/>
@@ -104,6 +123,15 @@
     .required{
         color:red;
     }
+    #clearLogoButton{
+        position: absolute;
+        margin-top: -40px;
+        margin-left: 66px;
+        opacity: 0.1;
+    }
+    #clearLogoButton:hover{
+        opacity:1;
+    }
 </style>
 
 <script>
@@ -128,7 +156,8 @@
                 form: {
                     name: null,
                     email: null,
-                    website: null
+                    website: null,
+                    logo: null
                 },
                 showModal: false,
                 myCompanies: this.companies,
@@ -158,10 +187,15 @@
                 this.resetErrors();
                 this.editMode = false;
             },
+            clearLogo: function(){
+                this.form.logo = null;
+            },
             reset: function () {
                 this.form = {
                     name: null,
                     email: null,
+                    website: null,
+                    logo: null
                 }
             },
             resetErrors: function(){
@@ -204,7 +238,7 @@
                 this.openModal();
             },
             update: function (data) {
-                if (this.validate(data)){;
+                if (this.validate(data)){
                     this.$inertia.post('/companies/update/' + data.id, data, {
                          onSuccess: () => {
                             this.closeModal();
@@ -234,6 +268,34 @@
                 //     return obj.id !== data.id;
                 // });
                 // this.closeModal();
+            },
+            onChange(e) {
+                this.file = e.target.files[0];
+                this.formSubmit(e);
+            },
+            formSubmit(e) {
+                e.preventDefault();
+                var _this = this;
+
+                _this.resetErrors();
+                const config = {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                }
+
+                let data = new FormData();
+                data.append('file', this.file);
+
+                axios.post('/upload', data, config)
+                    .then(function (res) {
+                        _this.form.logo = '/storage/uploads/' + res.data.fileName;
+                        _this.success = res.data.success;
+                    })
+                    .catch(function (err) {
+                        _this.form.logo = null;
+                        _this.errors.push("Invalid file: Must be png image with minimum dimensions 100 x 100 px.");
+                    });
             }
         }
     }
