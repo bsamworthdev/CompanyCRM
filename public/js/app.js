@@ -18360,6 +18360,17 @@ __webpack_require__.r(__webpack_exports__);
       //     return obj.id !== data.id;
       // });
       // this.closeModal();
+    },
+    getCompanyName: function getCompanyName(id) {
+      var companies = this.companies.filter(function (obj) {
+        return obj.id === id;
+      });
+
+      if (companies.length) {
+        return companies[0].name;
+      } else {
+        return '';
+      }
     }
   }
 });
@@ -22897,6 +22908,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableHeaderCell, {
         content: "Last Name"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableHeaderCell, {
+        hidden: "",
+        content: "Company ID"
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableHeaderCell, {
         content: "Company"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableHeaderCell, {
         content: "Email"
@@ -22916,7 +22930,12 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         }, null, 8
         /* PROPS */
         , ["content"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableCell, {
+          hidden: "",
           content: employee.company
+        }, null, 8
+        /* PROPS */
+        , ["content"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableCell, {
+          content: $options.getCompanyName(employee.company)
         }, null, 8
         /* PROPS */
         , ["content"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableCell, {

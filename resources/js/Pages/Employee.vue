@@ -19,6 +19,7 @@
                                 <tr>
                                     <TableHeaderCell content="First Name" />
                                     <TableHeaderCell content="Last Name" />
+                                    <TableHeaderCell hidden content="Company ID" />
                                     <TableHeaderCell content="Company" />
                                     <TableHeaderCell content="Email" />
                                     <TableHeaderCell content="Phone" />
@@ -29,7 +30,8 @@
                                 <tr v-for="employee in myEmployees.data" :key="employee.id">
                                     <TableCell :content="employee.first_name" />
                                     <TableCell :content="employee.last_name" />
-                                    <TableCell :content="employee.company" />
+                                    <TableCell hidden :content="employee.company" />
+                                    <TableCell :content="getCompanyName(employee.company)" />
                                     <TableCell :content="employee.email" />
                                     <TableCell :content="employee.phone" />
                                     <td class="border border-black-600 p-0 text-center">
@@ -273,6 +275,16 @@
                 //     return obj.id !== data.id;
                 // });
                 // this.closeModal();
+            },
+            getCompanyName: function(id){
+                var companies = this.companies.filter(obj => {
+                    return obj.id === id
+                })
+                if (companies.length) {
+                    return companies[0].name;
+                } else {
+                    return '';
+                }
             }
         }
     }
