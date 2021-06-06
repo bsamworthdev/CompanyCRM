@@ -14,7 +14,7 @@
                             Add New
                         </SuccessButton>
 
-                        <table class="table-fixed w-100 border-collapse border border-green-800 w-full">
+                        <table class="table-fixed w-100 border-collapse border border-black-800 w-full">
                             <thead class="font-bold">
                                 <tr>
                                     <TableHeaderCell content="First Name" />
@@ -26,7 +26,7 @@
                                     <TableHeaderCell content="" />
                                 </tr>
                             </thead>
-                            <tbody class="font-normal">
+                            <tbody class="font-normal" v-if="myEmployees.data.length">
                                 <tr v-for="employee in myEmployees.data" :key="employee.id">
                                     <TableCell :content="employee.first_name" />
                                     <TableCell :content="employee.last_name" />
@@ -43,6 +43,9 @@
                                         </DangerButton>
                                     </td>
                                 </tr>
+                            </tbody>
+                            <tbody v-else class="border-none">
+                                <i>No employees</i>
                             </tbody>
                             
                         </table>
