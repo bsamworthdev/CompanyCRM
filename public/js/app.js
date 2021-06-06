@@ -22183,7 +22183,7 @@ var _hoisted_5 = {
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add New ");
 
 var _hoisted_7 = {
-  "class": "table-fixed w-100 border-collapse border border-black-800 w-full"
+  "class": "table-auto w-100 border-collapse border border-black-800 w-full"
 };
 var _hoisted_8 = {
   "class": "font-bold"
@@ -22883,7 +22883,7 @@ var _hoisted_5 = {
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add New ");
 
 var _hoisted_7 = {
-  "class": "table-fixed w-100 border-collapse border border-black-800 w-full"
+  "class": "table-auto w-100 border-collapse border border-black-800 w-full"
 };
 var _hoisted_8 = {
   "class": "font-bold"

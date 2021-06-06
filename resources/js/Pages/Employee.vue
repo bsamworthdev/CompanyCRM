@@ -14,7 +14,7 @@
                             Add New
                         </SuccessButton>
 
-                        <table class="table-fixed w-100 border-collapse border border-black-800 w-full">
+                        <table class="table-auto w-100 border-collapse border border-black-800 w-full">
                             <thead class="font-bold">
                                 <tr>
                                     <TableHeaderCell content="First Name" />
