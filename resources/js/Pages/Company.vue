@@ -32,7 +32,7 @@
                                     <td class="border border-black-600 p-0 text-center">
                                         <img class="object-scale-down h-20 inline-block" :src="company.logo">
                                     </td>
-                                    <td class="border border-black-600 p-0 text-center">
+                                    <td class="border border-black-600 p-0 text-center whitespace-nowrap">
                                         <SecondaryButton class="m-1" @click="edit(company)">
                                             Edit
                                         </SecondaryButton>

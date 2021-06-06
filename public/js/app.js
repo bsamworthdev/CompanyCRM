@@ -20166,9 +20166,9 @@ var _hoisted_1 = {
   "class": "p-6 sm:px-20 bg-white border-b border-gray-200"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "mt-8 text-2xl"
-}, " Welcome to Company CRM ", -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-3xl mb-2"
+}, "Welcome to this CRM application", -1
 /* HOISTED */
 );
 
@@ -20180,20 +20180,10 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Employees ");
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2"
-}, null, -1
-/* HOISTED */
-);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_jet_application_logo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-application-logo");
-
   var _component_SecondaryButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SecondaryButton");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_application_logo, {
-    "class": "block h-12 w-auto"
-  })]), _hoisted_2, _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SecondaryButton, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [_hoisted_2, _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SecondaryButton, {
     onClick: $options.companiesClick,
     "class": "mt-6"
   }, {
@@ -20217,7 +20207,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onClick"])]), _hoisted_6]);
+  , ["onClick"])])]);
 }
 
 /***/ }),
@@ -22196,7 +22186,7 @@ var _hoisted_10 = {
   "class": "border border-black-600 p-0 text-center"
 };
 var _hoisted_11 = {
-  "class": "border border-black-600 p-0 text-center"
+  "class": "border border-black-600 p-0 text-center whitespace-nowrap"
 };
 
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit ");
@@ -22893,7 +22883,7 @@ var _hoisted_9 = {
   "class": "font-normal"
 };
 var _hoisted_10 = {
-  "class": "border border-black-600 p-0 text-center"
+  "class": "border border-black-600 p-0 text-center whitespace-nowrap"
 };
 
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit ");

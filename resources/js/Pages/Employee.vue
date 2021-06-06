@@ -34,7 +34,7 @@
                                     <TableCell :content="getCompanyName(employee.company)" />
                                     <TableCell :content="employee.email" />
                                     <TableCell :content="employee.phone" />
-                                    <td class="border border-black-600 p-0 text-center">
+                                    <td class="border border-black-600 p-0 text-center whitespace-nowrap">
                                         <SecondaryButton class="m-1" @click="edit(employee)">
                                             Edit
                                         </SecondaryButton>
