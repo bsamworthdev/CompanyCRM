@@ -17934,6 +17934,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var _Pages_Components_TableCell__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/Pages/Components/TableCell */ "./resources/js/Pages/Components/TableCell.vue");
 /* harmony import */ var _Pages_Components_TableHeaderCell__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/Pages/Components/TableHeaderCell */ "./resources/js/Pages/Components/TableHeaderCell.vue");
+/* harmony import */ var _Pages_Components_Pagination__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @/Pages/Components/Pagination */ "./resources/js/Pages/Components/Pagination.vue");
+
 
 
 
@@ -17971,7 +17973,8 @@ __webpack_require__.r(__webpack_exports__);
     TableHeaderCell: _Pages_Components_TableHeaderCell__WEBPACK_IMPORTED_MODULE_9__.default,
     SuccessButton: _Jetstream_SuccessButton__WEBPACK_IMPORTED_MODULE_4__.default,
     DangerButton: _Jetstream_DangerButton__WEBPACK_IMPORTED_MODULE_5__.default,
-    SecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_6__.default
+    SecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_6__.default,
+    Pagination: _Pages_Components_Pagination__WEBPACK_IMPORTED_MODULE_10__.default
   },
   methods: {
     openModal: function openModal() {
@@ -18035,28 +18038,40 @@ __webpack_require__.r(__webpack_exports__);
       this.openModal();
     },
     update: function update(data) {
+      var _this2 = this;
+
       if (this.validate(data)) {
         ;
-        this.$inertia.post('/companies/update/' + data.id, data);
-        var company = this.myCompanies.filter(function (obj) {
-          return obj.id === data.id;
-        });
+        this.$inertia.post('/companies/update/' + data.id, data, {
+          onSuccess: function onSuccess() {
+            _this2.closeModal();
 
-        if (company.length) {
-          company[0].name = data.name;
-          company[0].email = data.email;
-          company[0].website = data.website;
-        }
-
-        this.closeModal();
+            location.reload();
+          }
+        }); // var company = this.myCompanies.filter(obj => {
+        //     return obj.id === data.id
+        // })
+        // if (company.length){
+        //     company[0].name=data.name;
+        //     company[0].email=data.email;
+        //     company[0].website=data.website;
+        // }
+        // this.closeModal();
       }
     },
     deleteRow: function deleteRow(data) {
-      this.$inertia.post('/companies/delete/' + data.id, data);
-      this.myCompanies = this.myCompanies.filter(function (obj) {
-        return obj.id !== data.id;
-      });
-      this.closeModal();
+      var _this3 = this;
+
+      this.$inertia.post('/companies/delete/' + data.id, data, {
+        onSuccess: function onSuccess() {
+          _this3.closeModal();
+
+          location.reload();
+        }
+      }); // this.myCompanies = this.myCompanies.filter(function( obj ) {
+      //     return obj.id !== data.id;
+      // });
+      // this.closeModal();
     }
   }
 });
@@ -18267,14 +18282,12 @@ __webpack_require__.r(__webpack_exports__);
       this.openModal();
     },
     create: function create(data) {
-      var _this2 = this;
+      var _this = this;
 
       if (this.validate(data)) {
-        var _this = this;
-
         this.$inertia.post('/employees/create', data, {
           onSuccess: function onSuccess() {
-            _this2.closeModal();
+            _this.closeModal();
 
             location.reload();
           }
@@ -18312,21 +18325,26 @@ __webpack_require__.r(__webpack_exports__);
       this.openModal();
     },
     update: function update(data) {
+      var _this2 = this;
+
       if (this.validate(data)) {
-        this.$inertia.post('/employees/update/' + data.id, data);
-        var employee = this.myEmployees.filter(function (obj) {
-          return obj.id === data.id;
-        });
+        this.$inertia.post('/employees/update/' + data.id, data, {
+          onSuccess: function onSuccess() {
+            _this2.closeModal();
 
-        if (employee.length) {
-          employee[0].first_name = data.first_name;
-          employee[0].last_name = data.last_name;
-          employee[0].company = data.company;
-          employee[0].email = data.email;
-          employee[0].phone = data.phone;
-        }
-
-        this.closeModal();
+            location.reload();
+          }
+        }); // var employee = this.myEmployees.filter(obj => {
+        //     return obj.id === data.id
+        // })
+        // if (employee.length){
+        //     employee[0].first_name=data.first_name;
+        //     employee[0].last_name=data.last_name;
+        //     employee[0].company=data.company;
+        //     employee[0].email=data.email;
+        //     employee[0].phone=data.phone;
+        // }
+        // this.closeModal();
       }
     },
     deleteRow: function deleteRow(data) {
@@ -22192,6 +22210,8 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_DangerButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DangerButton");
 
+  var _component_Pagination = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Pagination");
+
   var _component_Label = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Label");
 
   var _component_Input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Input");
@@ -22227,7 +22247,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         content: "Website"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableHeaderCell, {
         content: ""
-      })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tbody", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.myCompanies, function (company) {
+      })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tbody", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.myCompanies.data, function (company) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tr", {
           key: company.id
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableCell, {
@@ -22272,7 +22292,12 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         , ["onClick"])])]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DialogModal, {
+      ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Pagination, {
+        "class": "mt-6",
+        links: $data.myCompanies.links
+      }, null, 8
+      /* PROPS */
+      , ["links"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DialogModal, {
         show: $data.showModal
       }, {
         title: _withId(function () {
@@ -22540,7 +22565,7 @@ var _hoisted_2 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_inertia_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("inertia-link");
 
-  return $props.links.length > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.links, function (link, k) {
+  return $props.links.length > 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.links, function (link, k) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: k
     }, [link.url === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {

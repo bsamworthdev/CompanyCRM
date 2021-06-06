@@ -207,9 +207,7 @@
             },
             create: function (data) {
                 if (this.validate(data)){
-
-                    var _this = this;
-                    this.$inertia.post('/employees/create', data,{
+                    this.$inertia.post('/employees/create', data, {
                         onSuccess: () => {
                             this.closeModal();
                             location.reload();
@@ -244,19 +242,24 @@
             },
             update: function (data) {
                 if (this.validate(data)){
-                    this.$inertia.post('/employees/update/' + data.id, data)
+                    this.$inertia.post('/employees/update/' + data.id, data, {
+                        onSuccess: () => {
+                            this.closeModal();
+                            location.reload();
+                        },
+                    });
 
-                    var employee = this.myEmployees.filter(obj => {
-                        return obj.id === data.id
-                    })
-                    if (employee.length){
-                        employee[0].first_name=data.first_name;
-                        employee[0].last_name=data.last_name;
-                        employee[0].company=data.company;
-                        employee[0].email=data.email;
-                        employee[0].phone=data.phone;
-                    }
-                    this.closeModal();
+                    // var employee = this.myEmployees.filter(obj => {
+                    //     return obj.id === data.id
+                    // })
+                    // if (employee.length){
+                    //     employee[0].first_name=data.first_name;
+                    //     employee[0].last_name=data.last_name;
+                    //     employee[0].company=data.company;
+                    //     employee[0].email=data.email;
+                    //     employee[0].phone=data.phone;
+                    // }
+                    // this.closeModal();
                 }
             },
             deleteRow: function (data) {

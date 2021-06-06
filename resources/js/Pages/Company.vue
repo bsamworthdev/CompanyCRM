@@ -24,7 +24,7 @@
                                 </tr>
                             </thead>
                             <tbody class="font-normal">
-                                <tr v-for="company in myCompanies" :key="company.id">
+                                <tr v-for="company in myCompanies.data" :key="company.id">
                                     <TableCell :content="company.name" />
                                     <TableCell :content="company.email" />
                                     <TableCell :content="company.website" />
@@ -40,6 +40,7 @@
                             </tbody>
                             
                         </table>
+                        <Pagination class="mt-6" :links="myCompanies.links" />
 
                         <DialogModal :show="showModal">
                             <template #title>
@@ -116,6 +117,7 @@
     import AppLayout from '@/Layouts/AppLayout'
     import TableCell from '@/Pages/Components/TableCell'
     import TableHeaderCell from '@/Pages/Components/TableHeaderCell'
+    import Pagination from '@/Pages/Components/Pagination'
     export default {
         props: {
             companies: String
@@ -143,7 +145,8 @@
             TableHeaderCell,
             SuccessButton,
             DangerButton,
-            SecondaryButton
+            SecondaryButton,
+            Pagination
         },
         methods: {
             openModal: function () {
@@ -202,25 +205,35 @@
             },
             update: function (data) {
                 if (this.validate(data)){;
-                    this.$inertia.post('/companies/update/' + data.id, data)
+                    this.$inertia.post('/companies/update/' + data.id, data, {
+                         onSuccess: () => {
+                            this.closeModal();
+                            location.reload();
+                        }
+                    });
 
-                    var company = this.myCompanies.filter(obj => {
-                        return obj.id === data.id
-                    })
-                    if (company.length){
-                        company[0].name=data.name;
-                        company[0].email=data.email;
-                        company[0].website=data.website;
-                    }
-                    this.closeModal();
+                    // var company = this.myCompanies.filter(obj => {
+                    //     return obj.id === data.id
+                    // })
+                    // if (company.length){
+                    //     company[0].name=data.name;
+                    //     company[0].email=data.email;
+                    //     company[0].website=data.website;
+                    // }
+                    // this.closeModal();
                 }
             },
             deleteRow: function (data) {
-                this.$inertia.post('/companies/delete/' + data.id, data)
-                this.myCompanies = this.myCompanies.filter(function( obj ) {
-                    return obj.id !== data.id;
-                });
-                this.closeModal();
+                this.$inertia.post('/companies/delete/' + data.id, data, {
+                        onSuccess: () => {
+                            this.closeModal();
+                            location.reload();
+                        }
+                    });
+                // this.myCompanies = this.myCompanies.filter(function( obj ) {
+                //     return obj.id !== data.id;
+                // });
+                // this.closeModal();
             }
         }
     }

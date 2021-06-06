@@ -11,7 +11,7 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees = Employee::orderBy('id','desc')->paginate(3); 
+        $employees = Employee::orderBy('first_name')->paginate(10); 
         $companies = Company::orderBy('name')->get(); 
         return Inertia::render('Employee', [
             'employees' => $employees,

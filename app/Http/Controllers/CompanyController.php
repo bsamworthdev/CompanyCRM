@@ -10,7 +10,7 @@ class CompanyController extends Controller
 {
     public function index()
     {
-        $companies = Company::all(); 
+        $companies = Company::orderBy('name')->paginate(10); ; 
         return Inertia::render('Company', ['companies' => $companies]);
     }
     
