@@ -22,6 +22,11 @@ class CompanyTest extends TestCase
         return $company->id;
     }
 
+    public function deleteCompany($id){
+        $company = Company::find($id);
+        $company->delete();
+    }
+
     /** @test */
     public function company_can_be_created()
     {
@@ -30,6 +35,19 @@ class CompanyTest extends TestCase
 
         $this->assertDatabaseHas('companies', [
             'name' => 'TestName_'.$name
+        ]);
+    }
+
+
+    /** @test */
+    public function company_can_be_deleted()
+    {
+        $name = Str::random(6);
+        $company_id = $this->createCompany($name);
+        $this->deleteCompany($company_id);
+
+        $this->assertDatabaseMissing('companies', [
+            'name' => 'TestName_'.$name,
         ]);
     }
 }

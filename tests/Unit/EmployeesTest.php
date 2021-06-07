@@ -23,6 +23,11 @@ class EmployeeTest extends TestCase
         return $employee->id;
     }
 
+    public function deleteEmployee($id){
+        $employee = Employee::find($id);
+        $employee->delete();
+    }
+
     /** @test */
     public function employee_can_be_created()
     {
@@ -30,6 +35,19 @@ class EmployeeTest extends TestCase
         $employee_id = $this->createEmployee($name);
 
         $this->assertDatabaseHas('employees', [
+            'first_name' => 'TestFirstName_'.$name,
+            'last_name' => 'TestLastName_'.$name,
+        ]);
+    }
+
+    /** @test */
+    public function employee_can_be_deleted()
+    {
+        $name = Str::random(6);
+        $employee_id = $this->createEmployee($name);
+        $this->deleteEmployee($employee_id);
+
+        $this->assertDatabaseMissing('employees', [
             'first_name' => 'TestFirstName_'.$name,
             'last_name' => 'TestLastName_'.$name,
         ]);
