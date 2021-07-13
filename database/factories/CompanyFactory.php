@@ -25,6 +25,7 @@ class CompanyFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'website' => $this->faker->url,
+            'logo' => $this->faker->url,
             'created_at' => now(),
             'updated_at' => now(),
         ];

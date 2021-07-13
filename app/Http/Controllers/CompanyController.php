@@ -20,18 +20,18 @@ class CompanyController extends Controller
         return redirect()->back()->with('success', 'Company Added');
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $company_id)
     {
-        if ($request->has('id')) {
-            Company::find($request->input('id'))->update($request->all());
+        if ($company_id) {
+            Company::find($company_id)->update($request->all());
             return redirect()->back()->with('success', 'Company Updated');
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $company_id)
     {
-        if ($request->has('id')) {
-            Company::find($request->input('id'))->delete();
+        if ($company_id) {
+            Company::find($company_id)->delete();
             return redirect()->back()->with('success', 'Company Deleted');
         }
     }

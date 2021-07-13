@@ -25,18 +25,18 @@ class EmployeeController extends Controller
         return redirect()->back()->with('success', 'Employee Added');
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $employee_id)
     {
-        if ($request->has('id')) {
-            Employee::find($request->input('id'))->update($request->all());
+        if ($employee_id) {
+            Employee::find($employee_id)->update($request->all());
             return redirect()->back()->with('success', 'Employee Updated');
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $employee_id)
     {
-        if ($request->has('id')) {
-            Employee::find($request->input('id'))->delete();
+        if ($employee_id) {
+            Employee::find($employee_id)->delete();
             return redirect()->back()->with('success', 'Employee Deleted');
         }
     }
